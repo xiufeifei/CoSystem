@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kmxy.dao.FilesMapper">
+  <resultMap id="BaseResultMap" type="com.kmxy.entity.Files">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="format" jdbcType="VARCHAR" property="format" />
+    <result column="url" jdbcType="VARCHAR" property="url" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <association property="admin" javaType="com.kmxy.entity.Admin">
+      <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, format, url, create_time, update_time, admin_id, info
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_files
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_files
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kmxy.entity.Files">
+    insert into tb_files (id, name, format,
+      url, create_time, update_time, 
+      admin_id, info)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{format,jdbcType=VARCHAR}, 
+      #{url,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{adminId,jdbcType=INTEGER}, #{info,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kmxy.entity.Files">
+    insert into tb_files
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="format != null">
+        format,
+      </if>
+      <if test="url != null">
+        url,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="format != null">
+        #{format,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kmxy.entity.Files">
+    update tb_files
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="format != null">
+        format = #{format,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null">
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kmxy.entity.Files">
+    update tb_files
+    set name = #{name,jdbcType=VARCHAR},
+      format = #{format,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      info = #{info,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectionByCondition" resultMap="BaseResultMap" parameterType="files">
+      select
+        tb_files.id, tb_files.name, tb_files.format, tb_files.url, tb_files.create_time, tb_files.update_time, tb_files.admin_id,
+        tb_files.info,tb_admin.id,tb_admin.name
+      from
+      tb_files left  join tb_admin on tb_files.admin_id =tb_admin.id
+      <where>
+        <if test="name != null">
+          and  tb_files.name like CONCAT(CONCAT('%',#{name,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="format != null">
+            and  format like CONCAT(CONCAT('%',#{format,jdbcType=VARCHAR}),'%')
+        </if>
+        <if test="url != null">
+            and url = #{url,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime != null">
+            and  create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="updateTime != null">
+            and update_time = #{updateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="adminId != null">
+            and admin_id = #{adminId,jdbcType=INTEGER}
+        </if>
+        <if test="info != null">
+          and info like CONCAT(CONCAT('%',#{info,jdbcType=VARCHAR}),'%')
+        </if>
+      </where>
+      limit #{pageNum} , #{pageSize}
+    </select>
+  <select id="selectCountByCondition" resultType="int" parameterType="map">
+     select count(*) from tb_files
+    <where>
+      <if test="name != null">
+        and  name like CONCAT(CONCAT('%',#{name,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="format != null">
+        and  format like CONCAT(CONCAT('%',#{format,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="url != null">
+          and url = #{url,jdbcType=VARCHAR}
+      </if>
+      <if test="createTime != null">
+          and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateTime != null">
+          and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="adminId != null">
+          and admin_id = #{adminId,jdbcType=INTEGER}
+      </if>
+      <if test="info != null">
+        and info like CONCAT(CONCAT('%',#{info,jdbcType=VARCHAR}),'%')
+      </if>
+    </where>
+  </select>
+    <select id="selectByName" resultMap="BaseResultMap" parameterType="files">
+      select
+      <include refid="Base_Column_List" />
+      from tb_files
+      where
+      name = #{name,jdbcType=VARCHAR}
+    </select>
+</mapper>

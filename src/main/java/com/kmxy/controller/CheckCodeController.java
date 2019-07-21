@@ -35,7 +35,7 @@ public class CheckCodeController extends HttpServlet {
 		int b = fc + random.nextInt(bc - fc);
 		return new Color(r, g, b);
 	}
-
+asdfghjkl
 	@Override
 	public void service(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

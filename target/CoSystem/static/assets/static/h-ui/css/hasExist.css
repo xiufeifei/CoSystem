@@ -1,0 +1,15 @@
+.hasexit{
+    position: absolute;
+    right: 18px;
+    top: 5px;
+    color: #ef392b;
+    font-size: 12px;
+}
+
+.noexit{
+    position: absolute;
+    right: 18px;
+    top: 5px;
+    color: #1aefec;
+    font-size: 12px;
+}

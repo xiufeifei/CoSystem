@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kmxy.dao.ScoreMapper">
+  <resultMap id="BaseResultMap" type="com.kmxy.entity.Score">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="experience" jdbcType="VARCHAR" property="experience" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="attendance" jdbcType="INTEGER" property="attendance" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+    <association property="user" javaType="com.kmxy.entity.User">
+        <id column="uid" jdbcType="INTEGER" property="uid" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="politic" jdbcType="TINYINT" property="politic" />
+    </association>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, experience, user_id, attendance, create_time, update_time, info
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+      tb_score.id, tb_score.experience, tb_score.user_id, tb_score.attendance, tb_score.create_time,
+      tb_score.update_time, tb_score.info,tb_user.username,tb_user.politic,tb_user.uid
+    from
+    tb_score left join tb_user on tb_score.user_id=tb_user.uid
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_score
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kmxy.entity.Score">
+    insert into tb_score (id, experience, user_id,
+      attendance, create_time, update_time, 
+      info)
+    values (#{id,jdbcType=INTEGER}, #{experience,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, 
+      #{attendance,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{info,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kmxy.entity.Score">
+    insert into tb_score
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="experience != null">
+        experience,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="attendance != null">
+        attendance,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="info != null">
+        info,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="experience != null">
+        #{experience,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="attendance != null">
+        #{attendance,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="info != null">
+        #{info,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kmxy.entity.Score">
+    update tb_score
+    <set>
+      <if test="experience != null">
+        experience = #{experience,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="attendance != null">
+        attendance = #{attendance,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="info != null">
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kmxy.entity.Score">
+    update tb_score
+    set experience = #{experience,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=INTEGER},
+      attendance = #{attendance,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      info = #{info,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectionByCondition" resultMap="BaseResultMap" parameterType="score">
+    select
+      tb_score.id, tb_score.experience, tb_score.user_id, tb_score.attendance, tb_score.create_time,
+      tb_score.update_time, tb_score.info,tb_user.username,tb_user.politic,tb_user.uid
+    from
+    tb_score left join tb_user on tb_score.user_id=tb_user.uid
+    <where>
+      <if test="experience != null">
+        tb_score.experience = #{experience,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null">
+        and tb_score.user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="attendance != null">
+          and tb_score.attendance = #{attendance,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null">
+          and tb_score.create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateTime != null">
+          and tb_score.update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="info != null">
+        and tb_score.info like CONCAT(CONCAT('%',#{info,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="user !=null">
+        <if test="user.username != null">
+          and tb_user.username = #{user.username,jdbcType=VARCHAR}
+        </if>
+
+      </if>
+    </where>
+    limit #{pageNum} , #{pageSize}
+  </select>
+  <select id="selectCountByCondition" resultType="int" parameterType="map">
+    select count(*) from tb_score
+    <where>
+      <if test="experience != null">
+        experience = #{experience,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null">
+        and user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="attendance != null">
+          and attendance = #{attendance,jdbcType=INTEGER}
+      </if>
+      <if test="createTime != null">
+          and create_time = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="updateTime != null">
+          and update_time = #{updateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="info != null">
+        and info like CONCAT(CONCAT('%',#{info,jdbcType=VARCHAR}),'%')
+      </if>
+    </where>
+  </select>
+    <select id="selectByUserId" resultMap="BaseResultMap">
+      select
+      <include refid="Base_Column_List" />
+      where user_id= #{userId,jdbcType=INTEGER}
+    </select>
+</mapper>
