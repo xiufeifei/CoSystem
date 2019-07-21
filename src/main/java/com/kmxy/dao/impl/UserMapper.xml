@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kmxy.dao.UserMapper">
+  <resultMap id="BaseResultMap" type="com.kmxy.entity.User">
+    <id column="uid" jdbcType="INTEGER" property="uid" />
+    <result column="uaccount" jdbcType="VARCHAR" property="uaccount" />
+    <result column="pwd" jdbcType="VARCHAR" property="pwd" />
+    <result column="num" jdbcType="VARCHAR" property="num" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="ugender" jdbcType="BIT" property="ugender" />
+    <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="politic" jdbcType="TINYINT" property="politic" />
+    <result column="foster" jdbcType="INTEGER" property="foster" />
+    <result column="branch" jdbcType="VARCHAR" property="branch" />
+    <result column="education" jdbcType="VARCHAR" property="education" />
+    <result column="faculty" jdbcType="VARCHAR" property="faculty" />
+    <result column="junior" jdbcType="VARCHAR" property="junior" />
+    <result column="grades" jdbcType="VARCHAR" property="grades" />
+    <result column="tell" jdbcType="VARCHAR" property="tell" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="score_id" jdbcType="INTEGER" property="scoreId" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="uinfo" jdbcType="VARCHAR" property="uinfo" />
+    <result column="ucreate_time" jdbcType="TIMESTAMP" property="ucreateTime" />
+    <result column="uupdate_time" jdbcType="TIMESTAMP" property="uupdateTime" />
+    <result column="player" jdbcType="TINYINT" property="player" />
+    <result column="duty" jdbcType="VARCHAR" property="duty" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <association column="admin_id" javaType="Admin" property="admin" resultMap="adminResult"/>
+  </resultMap>
+
+  <resultMap id="adminResult" type="com.kmxy.entity.Admin">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="account" jdbcType="VARCHAR" property="account" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gender" jdbcType="TINYINT" property="gender" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="info" jdbcType="VARCHAR" property="info" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    uid, uaccount, pwd, num, username, ugender, birthday, politic, foster, branch, education, 
+    faculty, junior, grades, tell, email, score_id, admin_id, uinfo, ucreate_time, uupdate_time,
+    player, duty, state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_user
+    where uid = #{uid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tb_user
+    where uid = #{uid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kmxy.entity.User">
+    insert into tb_user (uid, uaccount, pwd,
+      num, username, ugender, 
+      birthday, politic, foster, 
+      branch, education, faculty, 
+      junior, grades, tell, 
+      email, score_id, admin_id, 
+      uinfo, ucreate_time, uupdate_time,
+      player, duty, state
+      )
+    values (#{uid,jdbcType=INTEGER}, #{uaccount,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
+      #{num,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{ugender,jdbcType=BIT}, 
+      #{birthday,jdbcType=TIMESTAMP}, #{politic,jdbcType=TINYINT}, #{foster,jdbcType=INTEGER}, 
+      #{branch,jdbcType=VARCHAR}, #{education,jdbcType=VARCHAR}, #{faculty,jdbcType=VARCHAR}, 
+      #{junior,jdbcType=VARCHAR}, #{grades,jdbcType=VARCHAR}, #{tell,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{scoreId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER}, 
+      #{uinfo,jdbcType=VARCHAR}, #{ucreateTime,jdbcType=TIMESTAMP}, #{uupdateTime,jdbcType=TIMESTAMP},
+      #{player,jdbcType=TINYINT}, #{duty,jdbcType=VARCHAR}, #{state,jdbcType=TINYINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kmxy.entity.User">
+    insert into tb_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        uid,
+      </if>
+      <if test="uaccount != null">
+        uaccount,
+      </if>
+      <if test="pwd != null">
+        pwd,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="username != null">
+        username,
+      </if>
+      <if test="ugender != null">
+        ugender,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="politic != null">
+        politic,
+      </if>
+      <if test="foster != null">
+        foster,
+      </if>
+      <if test="branch != null">
+        branch,
+      </if>
+      <if test="education != null">
+        education,
+      </if>
+      <if test="faculty != null">
+        faculty,
+      </if>
+      <if test="junior != null">
+        junior,
+      </if>
+      <if test="grades != null">
+        grades,
+      </if>
+      <if test="tell != null">
+        tell,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="scoreId != null">
+        score_id,
+      </if>
+      <if test="adminId != null">
+        admin_id,
+      </if>
+      <if test="uinfo != null">
+        uinfo,
+      </if>
+      <if test="ucreateTime != null">
+        ucreate_time,
+      </if>
+      <if test="uupdateTime != null">
+        uupdate_time,
+      </if>
+      <if test="player != null">
+        player,
+      </if>
+      <if test="duty != null">
+        duty,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uid != null">
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="uaccount != null">
+        #{uaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="ugender != null">
+        #{ugender,jdbcType=BIT},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="politic != null">
+        #{politic,jdbcType=TINYINT},
+      </if>
+      <if test="foster != null">
+        #{foster,jdbcType=INTEGER},
+      </if>
+      <if test="branch != null">
+        #{branch,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="faculty != null">
+        #{faculty,jdbcType=VARCHAR},
+      </if>
+      <if test="junior != null">
+        #{junior,jdbcType=VARCHAR},
+      </if>
+      <if test="grades != null">
+        #{grades,jdbcType=VARCHAR},
+      </if>
+      <if test="tell != null">
+        #{tell,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreId != null">
+        #{scoreId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="uinfo != null">
+        #{uinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="ucreateTime != null">
+        #{ucreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uupdateTime != null">
+        #{uupdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="player != null">
+        #{player,jdbcType=TINYINT},
+      </if>
+      <if test="duty != null">
+        #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kmxy.entity.User">
+    update tb_user
+    <set>
+      <if test="uaccount != null">
+        uaccount = #{uaccount,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        pwd = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="num != null">
+        num = #{num,jdbcType=VARCHAR},
+      </if>
+      <if test="username != null">
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="ugender != null">
+        ugender = #{ugender,jdbcType=BIT},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="politic != null">
+        politic = #{politic,jdbcType=TINYINT},
+      </if>
+      <if test="foster != null">
+        foster = #{foster,jdbcType=INTEGER},
+      </if>
+      <if test="branch != null">
+        branch = #{branch,jdbcType=VARCHAR},
+      </if>
+      <if test="education != null">
+        education = #{education,jdbcType=VARCHAR},
+      </if>
+      <if test="faculty != null">
+        faculty = #{faculty,jdbcType=VARCHAR},
+      </if>
+      <if test="junior != null">
+        junior = #{junior,jdbcType=VARCHAR},
+      </if>
+      <if test="grades != null">
+        grades = #{grades,jdbcType=VARCHAR},
+      </if>
+      <if test="tell != null">
+        tell = #{tell,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreId != null">
+        score_id = #{scoreId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null">
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="uinfo != null">
+        uinfo = #{uinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="ucreateTime != null">
+        ucreate_time = #{ucreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="uupdateTime != null">
+        uupdate_time = #{uupdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="player != null">
+        player = #{player,jdbcType=TINYINT},
+      </if>
+      <if test="duty != null">
+        duty = #{duty,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=TINYINT}
+      </if>
+    </set>
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kmxy.entity.User">
+    update tb_user
+    set uaccount = #{uaccount,jdbcType=VARCHAR},
+      pwd = #{pwd,jdbcType=VARCHAR},
+      num = #{num,jdbcType=VARCHAR},
+      username = #{username,jdbcType=VARCHAR},
+      ugender = #{ugender,jdbcType=BIT},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      politic = #{politic,jdbcType=TINYINT},
+      foster = #{foster,jdbcType=INTEGER},
+      branch = #{branch,jdbcType=VARCHAR},
+      education = #{education,jdbcType=VARCHAR},
+      faculty = #{faculty,jdbcType=VARCHAR},
+      junior = #{junior,jdbcType=VARCHAR},
+      grades = #{grades,jdbcType=VARCHAR},
+      tell = #{tell,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      score_id = #{scoreId,jdbcType=INTEGER},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      uinfo = #{uinfo,jdbcType=VARCHAR},
+      ucreate_time = #{ucreateTime,jdbcType=TIMESTAMP},
+      uupdate_time = #{uupdateTime,jdbcType=TIMESTAMP},
+      player = #{player,jdbcType=TINYINT},
+      duty = #{duty,jdbcType=VARCHAR},
+      state = #{state,jdbcType=TINYINT}
+    where uid = #{uid,jdbcType=INTEGER}
+  </update>
+  <select id="selectionByCondition" resultMap="BaseResultMap" parameterType="user">
+    select
+      tb_user.uid as uid, tb_user.uaccount as uaccount, tb_user.pwd as pwd,
+      tb_user.num as num, tb_user.username as username, tb_user.ugender as ugender,
+      tb_user.birthday as birthday, tb_user.politic as politic,tb_user.state as state,
+      tb_user.foster as foster, tb_user.branch as branch, tb_user.education as education,
+      tb_user.faculty as faculty, tb_user.junior as junior, tb_user.grades as grades,
+      tb_user.tell as tell, tb_user.email as email, tb_user.admin_id as adminId, tb_user.uinfo as uInfo,
+      tb_user.ucreate_time , tb_user.uupdate_time ,tb_user.player as player, tb_user.duty as duty,
+      tb_admin.id as id, tb_admin.name as name
+      from tb_user left join tb_admin on tb_user.admin_id=tb_admin.id
+    <where>
+      <if test="uaccount != null">
+          tb_user.uaccount = #{uaccount,jdbcType=VARCHAR}
+      </if>
+      <if test="pwd != null">
+          and tb_user.pwd = #{pwd,jdbcType=VARCHAR}
+      </if>
+      <if test="num != null">
+          and tb_user.num = #{num,jdbcType=VARCHAR}
+      </if>
+      <if test="username != null">
+          and tb_user.username = #{username,jdbcType=VARCHAR}
+      </if>
+      <if test="ugender != null">
+          and tb_user.ugender = #{ugender,jdbcType=BIT}
+      </if>
+      <if test="birthday != null">
+          and tb_user.birthday = #{birthday,jdbcType=TIMESTAMP}
+      </if>
+      <if test="politic != null">
+          and tb_user.politic = #{politic,jdbcType=TINYINT}
+      </if>
+      <if test="foster != null">
+          and tb_user.foster = #{foster,jdbcType=INTEGER}
+      </if>
+      <if test="branch != null">
+          and tb_user.branch = #{branch,jdbcType=VARCHAR}
+      </if>
+      <if test="education != null">
+          and tb_user.education = #{education,jdbcType=VARCHAR}
+      </if>
+      <if test="faculty != null">
+          and tb_user.faculty = #{faculty,jdbcType=VARCHAR}
+      </if>
+      <if test="junior != null">
+          and tb_user.junior = #{junior,jdbcType=VARCHAR}
+      </if>
+      <if test="grades != null">
+          and tb_user.grades = #{grades,jdbcType=VARCHAR}
+      </if>
+      <if test="tell != null">
+          and tb_user.tell = #{tell,jdbcType=VARCHAR}
+      </if>
+      <if test="email != null">
+          and tb_user.email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="scoreId != null">
+          and tb_user.score_id = #{scoreId,jdbcType=INTEGER}
+      </if>
+      <if test="adminId != null">
+          and tb_user.admin_id = #{adminId,jdbcType=INTEGER}
+      </if>
+      <if test="uinfo != null">
+          and tb_user.uinfo like CONCAT(CONCAT('%',#{uinfo,jdbcType=VARCHAR}),'%')
+      </if>
+      <if test="ucreateTime != null">
+          and tb_user.ucreate_time = #{ucreateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="uupdateTime != null">
+          and tb_user.uupdate_time = #{uupdateTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="player != null">
+          and tb_user.player = #{player,jdbcType=TINYINT}
+      </if>
+      <if test="duty != null">
+          and tb_user.duty = #{duty,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null">
+          and tb_user.state = #{state,jdbcType=TINYINT}
+      </if>
+    </where>
+      limit #{pageNum} , #{pageSize}
+  </select>
+  <select id="selectCountByCondition" resultType="java.lang.Integer" parameterType="user">
+      select count(*) from tb_user
+      <where>
+          <if test="uaccount != null">
+              tb_user.uaccount = #{uaccount,jdbcType=VARCHAR}
+          </if>
+          <if test="pwd != null">
+              and tb_user.pwd = #{pwd,jdbcType=VARCHAR}
+          </if>
+          <if test="num != null">
+              and tb_user.num = #{num,jdbcType=VARCHAR}
+          </if>
+          <if test="username != null">
+              and tb_user.username = #{username,jdbcType=VARCHAR}
+          </if>
+          <if test="ugender != null">
+              and tb_user.ugender = #{ugender,jdbcType=BIT}
+          </if>
+          <if test="birthday != null">
+              and tb_user.birthday = #{birthday,jdbcType=TIMESTAMP}
+          </if>
+          <if test="politic != null">
+              and tb_user.politic = #{politic,jdbcType=TINYINT}
+          </if>
+          <if test="foster != null">
+              and tb_user.foster = #{foster,jdbcType=INTEGER}
+          </if>
+          <if test="branch != null">
+              and tb_user.branch = #{branch,jdbcType=VARCHAR}
+          </if>
+          <if test="education != null">
+              and tb_user.education = #{education,jdbcType=VARCHAR}
+          </if>
+          <if test="faculty != null">
+              and tb_user.faculty = #{faculty,jdbcType=VARCHAR}
+          </if>
+          <if test="junior != null">
+              and tb_user.junior = #{junior,jdbcType=VARCHAR}
+          </if>
+          <if test="grades != null">
+              and tb_user.grades = #{grades,jdbcType=VARCHAR}
+          </if>
+          <if test="tell != null">
+              and tb_user.tell = #{tell,jdbcType=VARCHAR}
+          </if>
+          <if test="email != null">
+              and tb_user.email = #{email,jdbcType=VARCHAR},
+          </if>
+          <if test="scoreId != null">
+              and tb_user.score_id = #{scoreId,jdbcType=INTEGER}
+          </if>
+          <if test="adminId != null">
+              and tb_user.admin_id = #{adminId,jdbcType=INTEGER}
+          </if>
+          <if test="uinfo != null">
+              and tb_user.uinfo like CONCAT(CONCAT('%',#{uinfo,jdbcType=VARCHAR}),'%')
+          </if>
+          <if test="ucreateTime != null">
+              and tb_user.ucreate_time = #{ucreateTime,jdbcType=TIMESTAMP}
+          </if>
+          <if test="uupdateTime != null">
+              and tb_user.uupdate_time = #{uupdateTime,jdbcType=TIMESTAMP}
+          </if>
+          <if test="player != null">
+              and tb_user.player = #{player,jdbcType=TINYINT}
+          </if>
+          <if test="duty != null">
+              and tb_user.duty = #{duty,jdbcType=VARCHAR}
+          </if>
+          <if test="state != null">
+              and tb_user.state = #{state,jdbcType=TINYINT}
+          </if>
+      </where>
+  </select>
+  <select id="batchDelete" resultType="int">
+      update  tb_user set politic = #{politic,jdbcType=TINYINT}
+      where id in
+      <foreach collection="adminIdArray" index="index" item="item" open="("
+               separator="," close=")">
+          #{item}
+      </foreach>
+  </select>
+    <select id="selectAll" resultMap="BaseResultMap" parameterType="user">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user
+    </select>
+    <select id="selectByAccount" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from tb_user
+        where uaccount = #{uaccount,jdbcType=VARCHAR}
+    </select>
+</mapper>
